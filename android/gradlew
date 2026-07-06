@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+set -e
+
+# Lightweight Gradle launcher for environments where the standard wrapper JAR is absent.
+# It first uses a system Gradle if available; otherwise it downloads Gradle into android/.gradle.
+
+if command -v gradle >/dev/null 2>&1; then
+  exec gradle "$@"
+fi
+
+APP_HOME=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+GRADLE_VERSION=8.7
+GRADLE_DIR="$APP_HOME/.gradle/gradle-$GRADLE_VERSION"
+GRADLE_ZIP="$APP_HOME/.gradle/gradle-$GRADLE_VERSION-bin.zip"
+GRADLE_URL="https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip"
+
+mkdir -p "$APP_HOME/.gradle"
+if [ ! -x "$GRADLE_DIR/bin/gradle" ]; then
+  echo "Downloading Gradle $GRADLE_VERSION..."
+  if command -v curl >/dev/null 2>&1; then
+    curl -L --fail -o "$GRADLE_ZIP" "$GRADLE_URL"
+  elif command -v wget >/dev/null 2>&1; then
+    wget -O "$GRADLE_ZIP" "$GRADLE_URL"
+  else
+    echo "curl or wget is required to download Gradle." >&2
+    exit 1
+  fi
+  unzip -q "$GRADLE_ZIP" -d "$APP_HOME/.gradle"
+fi
+
+exec "$GRADLE_DIR/bin/gradle" "$@"
