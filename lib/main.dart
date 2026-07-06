@@ -332,7 +332,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     ? const SizedBox.shrink()
                     : Card(
                         key: ValueKey<String>(_message ?? _status.error),
-                        color: theme.colorScheme.errorContainer.withOpacity(0.85),
+                        color: theme.colorScheme.errorContainer.withValues(alpha: 0.85),
                         child: Padding(
                           padding: const EdgeInsets.all(14),
                           child: Text(
@@ -548,7 +548,7 @@ class _RouteCard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           DropdownButtonFormField<int>(
-            value: value,
+            initialValue: value,
             decoration: const InputDecoration(border: OutlineInputBorder()),
             items: effectiveRoutes
                 .map(
@@ -608,10 +608,10 @@ class _GlassCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      color: Colors.white.withOpacity(0.075),
+      color: Colors.white.withValues(alpha: 0.075),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(28),
-        side: BorderSide(color: Colors.white.withOpacity(0.10)),
+        side: BorderSide(color: Colors.white.withValues(alpha: 0.10)),
       ),
       child: Padding(padding: const EdgeInsets.all(18), child: child),
     );
@@ -651,7 +651,7 @@ class _PulseDotState extends State<_PulseDot> with SingleTickerProviderStateMixi
           child: Container(
             width: 11,
             height: 11,
-            decoration: BoxDecoration(color: color, shape: BoxShape.circle, boxShadow: <BoxShadow>[BoxShadow(color: color.withOpacity(0.6), blurRadius: 12)]),
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle, boxShadow: <BoxShadow>[BoxShadow(color: color.withValues(alpha: 0.6), blurRadius: 12)]),
           ),
         );
       },
